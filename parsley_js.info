@@ -1,0 +1,3 @@
+name = parsley.js
+description = Adds the parsleyjs validation lib to forms
+dependencies[] = libraries
