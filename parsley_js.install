@@ -1,0 +1,35 @@
+<?php
+
+/**
+ * @file
+ * Provides the requirments, install and uninstall functions for parsley_js module
+ */
+
+
+/**
+ * Implements hook_requirments()
+ */
+
+function parsley_js_requirements($phase) {
+  $requirments = array();
+
+  if ($phase == 'runtime') {
+    if (module_exists('libraries')) {
+      if (($library = libraries_detect('parsleyjs')) && !empty($library['installed'])) {
+        $requirments['parsleyjs'] = array(
+          'title' => t('ParsleyJS Library'),
+          'value' => $library['version'],
+          'severity' => REQUIREMENT_OK,
+        );
+      }
+      else {
+        $requirments['parsleyjs'] = array(
+          'title' => t('ParsleyJS Library'),
+          'value' => t('Please download the !link library and place it in libraries under parsleyjs', array('!link' => l('parsley.js', 'https://github.com/guillaumepotier/Parsley.js/releases'))),
+          'severity' => REQUIREMENT_ERROR,
+        );
+      }
+    }
+  }
+  return $requirments;
+}

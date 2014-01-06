@@ -1,3 +1,5 @@
 name = parsley.js
 description = Adds the parsleyjs validation lib to forms
+core = 7.x
+
 dependencies[] = libraries
