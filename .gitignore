@@ -35,3 +35,8 @@ xmlrpc.php
 /profiles
 /scripts
 /themes
+
+#Ignore behat files
+tests/bin
+tests/composer.lock
+tests/vendor
