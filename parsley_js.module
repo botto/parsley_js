@@ -1,0 +1,144 @@
+<?php
+
+/**
+ * Implements hook_menu()
+ */
+
+
+function parsley_js_menu() {
+  $items = array();
+
+  /**
+   * Admin page to select which form to attach the JS to
+   */
+  $items['admin/config/user-interface/parsley-js'] = array(
+    'title' => 'ParsleyJS Config',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('parsley_js_settings_form'),
+    'access callback' => TRUE,
+    'type' => MENU_NORMAL_ITEM
+  );
+
+
+  $items['testform'] = array(
+    'title' => 'testform',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('parsley_js_test_form'),
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK
+  );
+
+  return $items;
+}
+
+
+
+/**
+ * Setting page that lets you choose which forms to include the JS on
+ */
+function parsley_js_settings_form($form, &$form_state) {
+  $form['parsley_js_form_ids'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Forms IDs'),
+  );
+
+  $form['parsley_js_form_ids'][] = array(
+    '#type' => 'textfield',
+  );
+
+  return system_settings_form($form);
+}
+
+function parsley_js_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'parsley_js_test_form') {
+    $exclude_form_elements = array (
+      'form_id',
+      'form_token',
+      'form_build_id',
+    );
+
+    $form['#attached']['libraries_load'][] = array('parsleyjs');
+
+    $form['#attributes'] = array('data-parsley-validate' => 'data-parsley-validate');
+
+    //Get the children of the form, however filter out any fields we don't want to use
+    //like form_token and form_id
+    $child_elements = array_diff(element_children($form), $exclude_form_elements);
+
+    //Loop through the fields and attach the relevent validator attr
+    foreach ($child_elements as $child_element_name) {
+      $element = &$form[$child_element_name];
+      if (!empty($element) && !empty($element['#type']) && $element['#type'] != 'hidden') {
+        if (!empty($element['#required']) && $element['#required'] == TRUE) {
+          $element['#attributes']['parsley-required'] = 'true';
+        }
+      }
+    }
+  }
+}
+
+
+function parsley_js_test_form($form, &$form_state) {
+  $form = array();
+
+  $form['testfield'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Bla'),
+    '#required' => TRUE,
+  );
+
+  $form['email'] = array(
+    '#type' => 'emailfield',
+    '#title' => t('asd'),
+  );
+
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => 'Ok'
+  );
+
+  return $form;
+}
+
+
+/**
+ * Implements hook_libraries_info() from the libraries module
+ */
+function parsley_js_libraries_info() {
+  $libraries = array();
+  $libraries['parsleyjs'] = array(
+    'name' => 'Parsley JS',
+    'vendor url' => 'http://parsleyjs.org/',
+    'download url' => 'https://github.com/guillaumepotier/Parsley.js/releases',
+    'version arguments' => array(
+      'file' => 'CHANGELOG.md',
+      //The version in the CHANGELOG.md is usually this pattern **x.x.x**
+      'pattern' => '@\*\*([0-9\.]+)@',
+      'lines' => 5,
+    ),
+    'files' => array(
+      'js' => array(
+        'parsley.js',
+
+      ),
+      'variants' => array(
+        'minified' => array(
+          'files' => array(
+            'js' => array(
+              'dist/parsley.min.js',
+            ),
+          ),
+        ),
+        'source' => array(
+          'files' => array(
+            'js' => array(
+              'parsley.js',
+            ),
+          ),
+        ),
+      ),
+    )
+  );
+  return $libraries;
+}
