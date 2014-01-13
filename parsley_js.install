@@ -7,23 +7,23 @@
 
 
 /**
- * Implements hook_requirments()
+ * Implements hook_requirements()
  */
 
 function parsley_js_requirements($phase) {
-  $requirments = array();
+  $requirements = array();
 
   if ($phase == 'runtime') {
     if (module_exists('libraries')) {
       if (($library = libraries_detect('parsleyjs')) && !empty($library['installed'])) {
-        $requirments['parsleyjs'] = array(
+        $requirements['parsleyjs'] = array(
           'title' => t('ParsleyJS Library'),
           'value' => $library['version'],
           'severity' => REQUIREMENT_OK,
         );
       }
       else {
-        $requirments['parsleyjs'] = array(
+        $requirements['parsleyjs'] = array(
           'title' => t('ParsleyJS Library'),
           'value' => t('Please download the !link library and place it in libraries under parsleyjs', array('!link' => l('parsley.js', 'https://github.com/guillaumepotier/Parsley.js/releases'))),
           'severity' => REQUIREMENT_ERROR,
@@ -31,5 +31,5 @@ function parsley_js_requirements($phase) {
       }
     }
   }
-  return $requirments;
+  return $requirements;
 }
