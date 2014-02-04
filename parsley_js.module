@@ -47,6 +47,25 @@ function parsley_js_settings_form($form, &$form_state) {
   return system_settings_form($form);
 }
 
+function parsley_js_hook_info() {
+  $hooks = array();
+
+  $hooks['parsley_js_forms'] = array(
+    'group' => 'parsley_js',
+  );
+
+  return $hooks;
+}
+
+/**
+ * Implements hook_parsley_js_forms
+ */
+function parsley_js_parsley_js_forms() {
+  return array(
+    'parsley_js_test_form',
+  );
+}
+
 
 /**
  * Implements hook_form_alter
@@ -54,25 +73,40 @@ function parsley_js_settings_form($form, &$form_state) {
  * TODO: Filter which forms to include on using system var
  */
 function parsley_js_form_alter(&$form, &$form_state, $form_id) {
-  if ($form_id == 'parsley_js_test_form') {
+  //Check if we have a cache for the form_ids
+  $declared_forms = cache_get('parsley_js:form_ids');
 
-    //Libraries module gives us a nice attach for this
-    $form['#attached']['libraries_load'][] = array('parsleyjs');
+  if ($declared_forms === FALSE) {
 
-    //Attach the parsleyjs binder
-    $form['#attributes'] = array('data-parsley-validate' => 'data-parsley-validate');
+    //Get all declared forms
+    $declared_forms = module_invoke_all('parsley_js_forms');
 
-    //Loop through the fields and attach the relevent validator attrib
-    foreach ($form as &$element) {
-      if (!empty($element['#rules'])) { 
-        foreach ($element['#rules'] as $rule) {
-          list($attrib, $val) = _parsley_js_rule_parser($rule);
+    if (!empty($declared_forms)) {
+      cache_set('parsley_js:form_ids', $declared_forms);
+      dpm('set cache');
+    }
+  }
+  elseif (!empty($declared_forms->data)) {
+    if (is_array($declared_forms->data) && in_array($form_id, $declared_forms->data)) {
+
+      //Libraries module gives us a nice attach for this
+      $form['#attached']['libraries_load'][] = array('parsleyjs');
+
+      //Attach the parsleyjs binder
+      $form['#attributes'] = array('data-parsley-validate' => 'data-parsley-validate');
+
+      //Loop through the fields and attach the relevent validator attrib
+      foreach ($form as &$element) {
+        if (!empty($element['#rules'])) { 
+          foreach ($element['#rules'] as $rule) {
+            list($attrib, $val) = _parsley_js_rule_parser($rule);
+            $element['#attributes'][$attrib] = array($val);
+          }
+        }
+        if (!empty($element['#required']) && $element['#required'] == TRUE){
+          list($attrib, $val) = _parsley_js_rule_parser('required');
           $element['#attributes'][$attrib] = array($val);
         }
-      }
-      if (!empty($element['#required']) && $element['#required'] == TRUE){
-        list($attrib, $val) = _parsley_js_rule_parser('required');
-        $element['#attributes'][$attrib] = array($val);
       }
     }
   }
@@ -80,12 +114,12 @@ function parsley_js_form_alter(&$form, &$form_state, $form_id) {
 
 function _parsley_js_rule_parser($rule) {
   switch ($rule) {
-    case 'numeric':
-      return array('parsley-type', 'number');
-      break;
-    case 'required':
-      return array('parsley-required', 'true');
-      break;
+  case 'numeric':
+    return array('parsley-type', 'number');
+    break;
+  case 'required':
+    return array('parsley-required', 'true');
+    break;
   }
 }
 
