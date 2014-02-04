@@ -31,8 +31,6 @@ function parsley_js_menu() {
   return $items;
 }
 
-
-
 /**
  * Setting page that lets you choose which forms to include the JS on
  */
@@ -49,49 +47,64 @@ function parsley_js_settings_form($form, &$form_state) {
   return system_settings_form($form);
 }
 
+
+/**
+ * Implements hook_form_alter
+ *
+ * TODO: Filter which forms to include on using system var
+ */
 function parsley_js_form_alter(&$form, &$form_state, $form_id) {
   if ($form_id == 'parsley_js_test_form') {
-    $exclude_form_elements = array (
-      'form_id',
-      'form_token',
-      'form_build_id',
-    );
 
+    //Libraries module gives us a nice attach for this
     $form['#attached']['libraries_load'][] = array('parsleyjs');
 
+    //Attach the parsleyjs binder
     $form['#attributes'] = array('data-parsley-validate' => 'data-parsley-validate');
 
-    //Get the children of the form, however filter out any fields we don't want to use
-    //like form_token and form_id
-    $child_elements = array_diff(element_children($form), $exclude_form_elements);
-
-    //Loop through the fields and attach the relevent validator attr
-    foreach ($child_elements as $child_element_name) {
-      $element = &$form[$child_element_name];
-      if (!empty($element) && !empty($element['#type']) && $element['#type'] != 'hidden') {
-        if (!empty($element['#required']) && $element['#required'] == TRUE) {
-          $element['#attributes']['parsley-required'] = 'true';
+    //Loop through the fields and attach the relevent validator attrib
+    foreach ($form as &$element) {
+      if (!empty($element['#rules'])) { 
+        foreach ($element['#rules'] as $rule) {
+          list($attrib, $val) = _parsley_js_rule_parser($rule);
+          $element['#attributes'][$attrib] = array($val);
         }
+      }
+      if (!empty($element['#required']) && $element['#required'] == TRUE){
+        list($attrib, $val) = _parsley_js_rule_parser('required');
+        $element['#attributes'][$attrib] = array($val);
       }
     }
   }
 }
 
+function _parsley_js_rule_parser($rule) {
+  switch ($rule) {
+    case 'numeric':
+      return array('parsley-type', 'number');
+      break;
+    case 'required':
+      return array('parsley-required', 'true');
+      break;
+  }
+}
 
 function parsley_js_test_form($form, &$form_state) {
   $form = array();
 
-  $form['testfield'] = array(
+  $form['testrequired'] = array(
     '#type' => 'textfield',
-    '#title' => t('Bla'),
+    '#title' => t('Test Required'),
     '#required' => TRUE,
   );
 
-  $form['email'] = array(
-    '#type' => 'emailfield',
-    '#title' => t('asd'),
+  $form['testnumeric'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Test Numeric'),
+    '#rules' => array(
+      'numeric'
+    ),
   );
-
 
   $form['submit'] = array(
     '#type' => 'submit',
