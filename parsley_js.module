@@ -112,14 +112,18 @@ function parsley_js_form_alter(&$form, &$form_state, $form_id) {
   }
 }
 
+/**
+ * Helper function to set the attribs
+ * Might move this out to it's own file later on
+ */
 function _parsley_js_rule_parser($rule) {
   switch ($rule) {
-  case 'numeric':
-    return array('parsley-type', 'number');
-    break;
-  case 'required':
-    return array('parsley-required', 'true');
-    break;
+    case 'numeric':
+      return array('parsley-type', 'number');
+      break;
+    case 'required':
+      return array('parsley-required', 'true');
+      break;
   }
 }
 
