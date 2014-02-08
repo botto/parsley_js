@@ -115,14 +115,40 @@ function parsley_js_form_alter(&$form, &$form_state, $form_id) {
 /**
  * Helper function to set the attribs
  * Might move this out to it's own file later on
+ *
+ * @see http://parsleyjs.org/documentation.html#basic-constraints
  */
 function _parsley_js_rule_parser($rule) {
   switch ($rule) {
+    case 'required':
+      return array('parsley-required', 'true');
+      break;
+    case 'notblank':
+      return array('parsley-notblank', 'true');
+      break;
+    case 'email':
+      return array('parsley-type', 'email');
+      break;
+    case 'url':
+      return array('parsley-type', 'url');
+      break;
+    case 'urlstrict':
+      return array('parsley-type', 'urlstrict');
+      break;
+    case 'digit':
+      return array('parsley-type', 'digits');
+      break;
     case 'numeric':
       return array('parsley-type', 'number');
       break;
-    case 'required':
-      return array('parsley-required', 'true');
+    case 'alpha_numeric':
+      return array('parsley-type', 'alphanum');
+      break;
+    case 'dateIso':
+      return array('parsley-type', 'dateIso');
+      break;
+    case 'phone':
+      return array('parsley-type', 'phone');
       break;
   }
 }
