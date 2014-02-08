@@ -91,8 +91,12 @@ function parsley_js_form_alter(&$form, &$form_state, $form_id) {
       //Libraries module gives us a nice attach for this
       $form['#attached']['libraries_load'][] = array('parsleyjs');
 
+      if (empty($form['#attributes'])) {
+        $form['#attributes'] = array();
+      }
+
       //Attach the parsleyjs binder
-      $form['#attributes'] = array('data-parsley-validate' => 'data-parsley-validate');
+      $form['#attributes']['data-parsley-validate'] = 'data-parsley-validate';
 
       //Loop through the fields and attach the relevent validator attrib
       foreach ($form as &$element) {
