@@ -83,7 +83,6 @@ function parsley_js_form_alter(&$form, &$form_state, $form_id) {
 
     if (!empty($declared_forms)) {
       cache_set('parsley_js:form_ids', $declared_forms);
-      dpm('set cache');
     }
   }
   elseif (!empty($declared_forms->data)) {
