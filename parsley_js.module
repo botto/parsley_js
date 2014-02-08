@@ -102,7 +102,25 @@ function parsley_js_form_alter(&$form, &$form_state, $form_id) {
       foreach ($form as &$element) {
         if (!empty($element['#rules'])) { 
           foreach ($element['#rules'] as $rule) {
-            list($attrib, $val) = _parsley_js_rule_parser($rule);
+            if (is_array($rule)) {
+
+              //Borrowed from FAPI module
+              if (!isset($rule['rule'])) {
+                drupal_set_message(t('Rule array with wrong structure on %field.', array('%field' => $element['#name'])), 'error');
+                continue;
+              }
+              $parsed_rule = _parsley_js_rule_parser($rule['rule']);
+            }
+            else {
+              $parsed_rule = _parsley_js_rule_parser($rule);
+            }
+
+            if (is_array($parsed_rule)) {
+              list($attrib, $val) = $parsed_rule;
+            }
+            else {
+              continue;
+            }
             $element['#attributes'][$attrib] = array($val);
           }
         }
@@ -122,12 +140,24 @@ function parsley_js_form_alter(&$form, &$form_state, $form_id) {
  * @see http://parsleyjs.org/documentation.html#basic-constraints
  */
 function _parsley_js_rule_parser($rule) {
-  switch ($rule) {
+  //Borrowed from FAPI module
+  preg_match('/^(.*?)(\[(.*)\])?$/', $rule, $rs);
+
+  switch ($rs[1]) {
     case 'required':
       return array('parsley-required', 'true');
       break;
     case 'notblank':
       return array('parsley-notblank', 'true');
+      break;
+    case 'length':
+      if (count($rs) == 4) {
+        return _parsley_js_rule_length($rs[3]);
+      }
+      else {
+        drupal_set_message(t('Invalid rule @rule', array('@rule' => $rule)), 'error');
+        return FALSE;
+      }
       break;
     case 'email':
       return array('parsley-type', 'email');
@@ -156,6 +186,33 @@ function _parsley_js_rule_parser($rule) {
   }
 }
 
+function _parsley_js_rule_length($args) {
+  if (strpos($args, ',') > 0) {
+    $ranges = explode(',', $args);
+  }
+  elseif (is_numeric($args)) {
+    $ranges = array($args, $args);
+  }
+  else {
+    drupal_set_message(t('@args is not a valid range arguments', array('@args' => $args)), 'error');
+    return FALSE;
+  }
+
+  if (is_numeric($ranges[0]) && is_numeric($ranges[1])) {
+    return array('parsley-rangelength', sprintf('[%d, %d]', $ranges[0], $ranges[1]));
+  }
+  elseif ($ranges[0] == '*' && is_numeric($ranges[1])) {
+    return array('parsley-maxlength', $ranges[1]);
+  }
+  elseif (is_numeric($ranges[0]) && $ranges[1] == '*') {
+    return array('parsley-minlength', $ranges[0]);
+  }
+  else {
+    drupal_set_message(t('@args is not a valid range arguments', array('@args' => $args)), 'error');
+    return FALSE;
+  }
+}
+
 function parsley_js_test_form($form, &$form_state) {
   $form = array();
 
@@ -173,6 +230,13 @@ function parsley_js_test_form($form, &$form_state) {
     ),
   );
 
+  $form['testlength'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Test Length'),
+    '#rules' => array(
+      'length[3, 6]'
+    ),
+  );
   $form['submit'] = array(
     '#type' => 'submit',
     '#value' => 'Ok'
