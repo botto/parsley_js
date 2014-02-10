@@ -1,5 +1,9 @@
 <?php
 
+
+define('PARSLEY_JS_RULE_INVALID', -1);
+define('PARSLEY_JS_RULE_NOT_FOUND', 1);
+
 /**
  * Implements hook_menu()
  */
@@ -118,7 +122,8 @@ function parsley_js_form_alter(&$form, &$form_state, $form_id) {
             if (is_array($parsed_rule)) {
               list($attrib, $val) = $parsed_rule;
             }
-            else {
+            elseif($parsed_rule === PARSLEY_JS_RULE_INVALID) {
+              drupal_set_message(t('Invalid rule @rule on field %field', array('@rule' => $rule, '%field' => $element['#name'])), 'error');
               continue;
             }
             $element['#attributes'][$attrib] = array($val);
@@ -142,7 +147,6 @@ function parsley_js_form_alter(&$form, &$form_state, $form_id) {
 function _parsley_js_rule_parser($rule) {
   //Borrowed from FAPI module
   preg_match('/^(.*?)(\[(.*)\])?$/', $rule, $rs);
-
   switch ($rs[1]) {
     case 'required':
       return array('parsley-required', 'true');
@@ -155,8 +159,7 @@ function _parsley_js_rule_parser($rule) {
         return _parsley_js_rule_length($rs[3]);
       }
       else {
-        drupal_set_message(t('Invalid rule @rule', array('@rule' => $rule)), 'error');
-        return FALSE;
+        return PARSLEY_JS_RULE_INVALID;
       }
       break;
     case 'email':
@@ -182,6 +185,9 @@ function _parsley_js_rule_parser($rule) {
       break;
     case 'phone':
       return array('parsley-type', 'phone');
+      break;
+    default:
+      return PARSLEY_JS_RULE_NOT_FOUND;
       break;
   }
 }
@@ -237,6 +243,7 @@ function parsley_js_test_form($form, &$form_state) {
       'length[3, 6]'
     ),
   );
+
   $form['submit'] = array(
     '#type' => 'submit',
     '#value' => 'Ok'
