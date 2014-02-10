@@ -119,14 +119,15 @@ function parsley_js_form_alter(&$form, &$form_state, $form_id) {
               $parsed_rule = _parsley_js_rule_parser($rule);
             }
 
+            //Set the element only if we have received an array back.
             if (is_array($parsed_rule)) {
               list($attrib, $val) = $parsed_rule;
+              $element['#attributes'][$attrib] = array($val);
             }
             elseif($parsed_rule === PARSLEY_JS_RULE_INVALID) {
               drupal_set_message(t('Invalid rule @rule on field %field', array('@rule' => $rule, '%field' => $element['#name'])), 'error');
               continue;
             }
-            $element['#attributes'][$attrib] = array($val);
           }
         }
         if (!empty($element['#required']) && $element['#required'] == TRUE){
