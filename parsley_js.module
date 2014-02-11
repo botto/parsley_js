@@ -214,6 +214,7 @@ function _parsley_js_parse_args($rs) {
 }
 
 function _parsley_js_rule_length($args) {
+
   $ranges = _parsley_js_numeric_args_parser($args);
   if (is_numeric($ranges[0]) && is_numeric($ranges[1])) {
     return array('parsley-rangelength', sprintf('[%d, %d]', $ranges[0], $ranges[1]));
@@ -248,6 +249,7 @@ function _parsley_js_rule_range($args) {
 function _parsley_js_numeric_args_parser($args) {
   if (strpos($args, ',') > 0) {
     $ranges = explode(',', $args);
+    $ranges = array_map('trim', $ranges);
   }
   elseif (is_numeric($args)) {
     $ranges = array($args, $args);
@@ -280,7 +282,15 @@ function parsley_js_test_form($form, &$form_state) {
     '#type' => 'textfield',
     '#title' => t('Test Length'),
     '#rules' => array(
-      'length[3, 6]'
+      'length[3, *]'
+    ),
+  );
+  
+  $form['testrange'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Test Range'),
+    '#rules' => array(
+      'range[3, *]'
     ),
   );
 
