@@ -1,0 +1,12 @@
+<?php
+
+class ParsleyJsTestCase extends DrupalWebTestCase {
+  public function setUp() {
+    parent::setUp('parsleyjs');
+  }
+
+  public function tearDown() {
+    parent::tearDown();
+  }
+
+}
