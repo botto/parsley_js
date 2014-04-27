@@ -7,14 +7,10 @@ define('PARSLEY_JS_RULE_NOT_FOUND', 1);
 /**
  * Implements hook_menu()
  */
-
-
 function parsley_js_menu() {
   $items = array();
 
-  /**
-   * Admin page to select which form to attach the JS to
-   */
+  // Admin page to select which form to attach the JS to
   $items['admin/config/user-interface/parsley-js'] = array(
     'title' => 'ParsleyJS Config',
     'page callback' => 'drupal_get_form',
@@ -28,6 +24,12 @@ function parsley_js_menu() {
 
 /**
  * Setting page that lets you choose which forms to include the JS on
+ *
+ * @param array $forms
+ *  Reference to form array
+ *
+ * @param array $form_state
+ *  Reference to form_state
  */
 function parsley_js_settings_form($form, &$form_state) {
   $form['parsley_js_form_ids'] = array(
@@ -42,6 +44,12 @@ function parsley_js_settings_form($form, &$form_state) {
   return system_settings_form($form);
 }
 
+/**
+ * Implementation of hook_hook_info
+ *
+ * Declaring the parsle_js_form hook to allow developers to hook their forms into parsley_js
+ */
+
 function parsley_js_hook_info() {
   $hooks = array();
 
@@ -55,15 +63,25 @@ function parsley_js_hook_info() {
 /**
  * Implements hook_form_alter
  *
- * TODO: Filter which forms to include on using system var
+ * This is where the main work happens
+ * First check wether the there is a cache entry with form_ids, if not it will
+ * build up a new list from calling the modules implementing the hook
+ *
+ * @todo Filter which forms to include on using system var
+ *
+ * @param array $form
+ *   The form array ref
+ * @param array $form_state
+ *   The form_state array ref
+ * @param string $form_id
+ *   The form_id
  */
 function parsley_js_form_alter(&$form, &$form_state, $form_id) {
   //Check if we have a cache for the form_ids
   $declared_forms = cache_get('parsley_js:form_ids');
 
   if ($declared_forms === FALSE) {
-
-    //Get all declared forms
+    //Rebuild list of known hooks for parsley_js_form
     $declared_forms = module_invoke_all('parsley_js_forms');
 
     if (!empty($declared_forms)) {
@@ -121,13 +139,16 @@ function parsley_js_form_alter(&$form, &$form_state, $form_id) {
 }
 
 /**
- * Helper function to set the attribs
- * Might move this out to it's own file later on
+ * Helper function to choose correct rule parser
+ *
+ * @param string $rule
+ *   The rule with either params or no params, it folows the parsleyjs syntax
  *
  * @see http://parsleyjs.org/documentation.html#basic-constraints
  */
 function _parsley_js_rule_parse($rule) {
-  //Borrowed from FAPI module
+  // Borrowed from FAPI module
+  // Checks wether there are any params included
   preg_match('/^(.*?)(\[(.*)\])?$/', $rule, $rs);
   if (count($rs) == 2) {
     return _parsley_js_parse_no_args($rs);
@@ -194,8 +215,13 @@ function _parsley_js_parse_args($rs) {
   }
 }
 
+/**
+ * The rule for length
+ *
+ * @param string $args
+ *   The arguments for the length rule
+ */
 function _parsley_js_rule_length($args) {
-
   $ranges = _parsley_js_numeric_args_parser($args);
   if (is_numeric($ranges[0]) && is_numeric($ranges[1])) {
     return array('parsley-rangelength', sprintf('[%d, %d]', $ranges[0], $ranges[1]));
@@ -211,6 +237,13 @@ function _parsley_js_rule_length($args) {
   }
 }
 
+
+/**
+ * The rule for numeric range
+ *
+ * @param string $args
+ *   The arguments for the range rule
+ */
 function _parsley_js_rule_range($args) {
   $ranges = _parsley_js_numeric_args_parser($args);
   if (is_numeric($ranges[0]) && is_numeric($ranges[1])) {
@@ -227,6 +260,9 @@ function _parsley_js_rule_range($args) {
   }
 }
 
+/**
+ * Helper function to parse out arguments with numeric values
+ */
 function _parsley_js_numeric_args_parser($args) {
   if (strpos($args, ',') > 0) {
     $ranges = explode(',', $args);
