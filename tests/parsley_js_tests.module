@@ -25,13 +25,13 @@ function parsley_js_tests_parsley_js_forms() {
 function parsley_js_tests_form($form, &$form_state) {
   $form = array();
 
-  $form['testrequired'] = array(
+  $form['required'] = array(
     '#type' => 'textfield',
     '#title' => t('Test Required'),
     '#required' => TRUE,
   );
 
-  $form['testnumeric'] = array(
+  $form['numeric'] = array(
     '#type' => 'textfield',
     '#title' => t('Test Numeric'),
     '#rules' => array(
@@ -39,7 +39,7 @@ function parsley_js_tests_form($form, &$form_state) {
     ),
   );
 
-  $form['testlength'] = array(
+  $form['length'] = array(
     '#type' => 'textfield',
     '#title' => t('Test Length'),
     '#rules' => array(
@@ -47,7 +47,7 @@ function parsley_js_tests_form($form, &$form_state) {
     ),
   );
 
-  $form['testrange'] = array(
+  $form['range'] = array(
     '#type' => 'textfield',
     '#title' => t('Test Range'),
     '#rules' => array(

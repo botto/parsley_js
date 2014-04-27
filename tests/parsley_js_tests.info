@@ -1,0 +1,6 @@
+name = parsley.js-tests
+description = Sub-module exposing the testform and the tests for parsleyjs
+core = 7.x
+group = Testing
+
+dependencies[] = parsley_js
