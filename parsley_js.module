@@ -1,11 +1,16 @@
 <?php
-
+/**
+ * @file
+ * Module that provides integration with parsley.js
+ * Currently support parsley 1.x
+ *
+ */
 
 define('PARSLEY_JS_RULE_INVALID', -1);
 define('PARSLEY_JS_RULE_NOT_FOUND', 1);
 
 /**
- * Implements hook_menu()
+ * Implements hook_menu().
  */
 function parsley_js_menu() {
   $items = array();
@@ -45,11 +50,10 @@ function parsley_js_settings_form($form, &$form_state) {
 }
 
 /**
- * Implementation of hook_hook_info
+ * Implements hook_hook_info().
  *
  * Declaring the parsle_js_form hook to allow developers to hook their forms into parsley_js
  */
-
 function parsley_js_hook_info() {
   $hooks = array();
 
@@ -61,7 +65,7 @@ function parsley_js_hook_info() {
 }
 
 /**
- * Implements hook_form_alter
+ * Implements hook_form_alter().
  *
  * This is where the main work happens
  * First check wether the there is a cache entry with form_ids, if not it will
@@ -103,7 +107,7 @@ function parsley_js_form_alter(&$form, &$form_state, $form_id) {
 
       //Loop through the fields and attach the relevent validator attrib
       foreach ($form as &$element) {
-        if (!empty($element['#rules'])) { 
+        if (!empty($element['#rules'])) {
           foreach ($element['#rules'] as $rule) {
             if (is_array($rule)) {
 
@@ -123,13 +127,13 @@ function parsley_js_form_alter(&$form, &$form_state, $form_id) {
               list($attrib, $val) = $parsed_rule;
               $element['#attributes'][$attrib] = array($val);
             }
-            elseif($parsed_rule === PARSLEY_JS_RULE_INVALID) {
+            elseif ($parsed_rule === PARSLEY_JS_RULE_INVALID) {
               drupal_set_message(t('Invalid rule @rule on field %field', array('@rule' => $rule, '%field' => $element['#name'])), 'error');
               continue;
             }
           }
         }
-        if (!empty($element['#required']) && $element['#required'] == TRUE){
+        if (!empty($element['#required']) && $element['#required'] == TRUE) {
           list($attrib, $val) = _parsley_js_rule_parse('required');
           $element['#attributes'][$attrib] = array($val);
         }
@@ -161,7 +165,18 @@ function _parsley_js_rule_parse($rule) {
   }
 }
 
-//All the attribs that don't use args
+/**
+ * Helper function to handle rules with no arguments
+ *
+ * @param string $rs
+ *   The rulestring parsed from #rules
+ *
+ * @code
+ * #rules => array(
+ *   'numeric'
+ * ),
+ * @endcode
+ */
 function _parsley_js_parse_no_args($rs) {
   switch ($rs[1]) {
     case 'required':
@@ -200,9 +215,20 @@ function _parsley_js_parse_no_args($rs) {
   }
 }
 
-//All the attribs that use args
+/**
+ * Helper function to handle rules with arguments
+ *
+ * @param string $rs
+ *   The rulestring parsed from #rules
+ *
+ * @code
+ * #rules => array(
+ *   'length[3, 16]'
+ * ),
+ * @endcode
+ */
 function _parsley_js_parse_args($rs) {
-  switch($rs[1]) {
+  switch ($rs[1]) {
     case 'length':
       return _parsley_js_rule_length($rs[3]);
       break;
