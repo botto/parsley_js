@@ -196,7 +196,7 @@ function _parsley_js_parse_no_args($rs) {
     case 'alpha_numeric':
       return array('parsley-type', 'alphanum');
 
-    case 'dateIso':
+    case 'date_iso':
       return array('parsley-type', 'dateIso');
 
     case 'phone':
