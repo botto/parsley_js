@@ -62,7 +62,9 @@ $form['my-field'] = array(
 ```
 
 ###Rules
-
+Currently only the folowing rules are implemented.  
+Where possible the rule names will folow the FAPI validation name, otherwise it
+will have the same rule name as the parsle.js documentation
 * notblank
 * email
 * url
@@ -75,9 +77,22 @@ $form['my-field'] = array(
 * length
 * range
 
-The syntax is the same as FAPI Validation, so length[3, 10]
+Details of these rules can be found at https://parsleyjs.github.io/Parsley-1.x/
 
-Further details can be found https://parsleyjs.github.io/Parsley-1.x/
+####Exceptions  
+
+**dateIso**:  
+The name of the rule is date_iso
+
+**Length**:  
+The length rules supports both specific length, min length and max length.  
+A set length is indicated bu ```length[2,9]``` meaning any string between 2 and 9 characters long  
+A min length is indicated by ```length[3, *]```   
+A max length is indicated by ```length[*, 6]```
+
+**Range**:  
+The range follows the same syntax, except this checks the numeric length of the 
+value. ```range[3, 8]``` validates the input is between 3 and 8
 
 ##Troubleshooting
 The module relies on a cache entry for the forms that have been declared in a
