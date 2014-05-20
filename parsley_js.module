@@ -9,46 +9,6 @@ define('PARSLEY_JS_RULE_INVALID', -1);
 define('PARSLEY_JS_RULE_NOT_FOUND', 1);
 
 /**
- * Implements hook_menu().
- */
-function parsley_js_menu() {
-  $items = array();
-
-  // Admin page to select which form to attach the JS to.
-  $items['admin/config/user-interface/parsley-js'] = array(
-    'title' => 'ParsleyJS Config',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('parsley_js_settings_form'),
-    'access callback' => TRUE,
-    'type' => MENU_NORMAL_ITEM,
-  );
-
-  return $items;
-}
-
-/**
- * Setting page that lets you choose which forms to include the JS on.
- *
- * @param array $form
- *   Reference to form array
- *
- * @param array $form_state
- *   Reference to form_state
- */
-function parsley_js_settings_form($form, &$form_state) {
-  $form['parsley_js_form_ids'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Forms IDs'),
-  );
-
-  $form['parsley_js_form_ids'][] = array(
-    '#type' => 'textfield',
-  );
-
-  return system_settings_form($form);
-}
-
-/**
  * Implements hook_hook_info().
  *
  * Declaring the parsle_js_form hook to allow developers to hook their forms
