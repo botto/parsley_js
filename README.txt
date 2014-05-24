@@ -82,7 +82,7 @@ Details of these rules can be found at https://parsleyjs.github.io/Parsley-1.x/
 ####Exceptions  
 
 **dateIso**:  
-The name of the rule is date_iso
+Parsley.js calls it dateIso, use date_iso instead to keep consistency
 
 **Length**:  
 The length rules supports both specific length, min length and max length.  
