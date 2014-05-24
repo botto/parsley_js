@@ -62,8 +62,8 @@ $form['my-field'] = array(
 ```
 
 ###Rules
-Currently only the folowing rules are implemented.  
-Where possible the rule names will folow the FAPI validation name, otherwise it
+Currently only the following rules are implemented.  
+Where possible the rule names will follow the FAPI validation name, otherwise it
 will have the same rule name as the parsle.js documentation
 * notblank
 * email

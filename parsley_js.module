@@ -58,7 +58,7 @@ function parsley_js_form_alter(&$form, &$form_state, $form_id) {
       // Attach the parsleyjs binder.
       $form['#attributes']['data-parsley-validate'] = 'data-parsley-validate';
 
-      // Loop through the fields and attach the relevent validator attrib.
+      // Loop through the fields and attach the relevant validator attrib.
       foreach ($form as &$element) {
         if (!empty($element['#rules'])) {
           foreach ($element['#rules'] as $rule) {
