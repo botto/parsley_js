@@ -46,8 +46,7 @@ function parsley_js_form_alter(&$form, &$form_state, $form_id) {
     }
   }
   elseif (!empty($declared_forms->data)) {
-    if (is_array($declared_forms->data) 
-      && in_array($form_id, $declared_forms->data)) {
+    if (is_array($declared_forms->data) && in_array($form_id, $declared_forms->data)) {
 
       // Libraries module gives us a nice attach for this.
       $form['#attached']['libraries_load'][] = array('parsleyjs');
