@@ -59,7 +59,7 @@ implemented the hook.
 
 $form['my-field'] = array(
   '#title' => t('My Field'),
-  '#description' => t('It\'s my field, only I get to fill it in'),
+  '#description' => t("It's my field, only I get to fill it in"),
   '#required' => TRUE,
   '#rules' => array(
     'length[3,10]',
