@@ -46,7 +46,8 @@ function parsley_js_form_alter(&$form, &$form_state, $form_id) {
     }
   }
   elseif (!empty($declared_forms->data)) {
-    if (is_array($declared_forms->data) && in_array($form_id, $declared_forms->data)) {
+    if (is_array($declared_forms->data) 
+      && in_array($form_id, $declared_forms->data)) {
 
       // Libraries module gives us a nice attach for this.
       $form['#attached']['libraries_load'][] = array('parsleyjs');
@@ -66,7 +67,12 @@ function parsley_js_form_alter(&$form, &$form_state, $form_id) {
 
               // Borrowed from FAPI module.
               if (!isset($rule['rule'])) {
-                drupal_set_message(t('Rule array with wrong structure on %field.', array('%field' => $element['#name'])), 'error');
+                drupal_set_message(
+                  t('Rule array with wrong structure on %field.',
+                    array('%field' => $element['#name'])
+                  ),
+                  'error'
+                );
                 continue;
               }
               $parsed_rule = _parsley_js_rule_parse($rule['rule']);
@@ -81,7 +87,11 @@ function parsley_js_form_alter(&$form, &$form_state, $form_id) {
               $element['#attributes'][$attrib] = array($val);
             }
             elseif ($parsed_rule === PARSLEY_JS_RULE_INVALID) {
-              drupal_set_message(t('Invalid rule @rule on field %field', array('@rule' => $rule, '%field' => $element['#name'])), 'error');
+              drupal_set_message(
+                t('Invalid rule @rule on field %field',
+                  array('@rule' => $rule, '%field' => $element['#name'])
+                ), 'error'
+              );
               continue;
             }
           }
@@ -252,7 +262,11 @@ function _parsley_js_numeric_args_parser($args) {
     $ranges = array($args, $args);
   }
   else {
-    drupal_set_message(t('@args is not a valid range arguments', array('@args' => $args)), 'error');
+    drupal_set_message(
+      t('@args is not a valid range arguments',
+        array('@args' => $args)
+      ), 'error'
+    );
     return FALSE;
   }
   return $ranges;
