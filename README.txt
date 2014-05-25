@@ -4,10 +4,10 @@ Drupal module that provides integration with the parsley.js library.
 Parsley.js performs client side form validation.
 Currently this module only integrates on the FAPI layer.
 
-This is not an end-user module, it relies on a hook to know which forms it 
+This is not an end-user module, it relies on a hook to know which forms it
 should act on.
 
-At it's core it's simply injects the correct attributes into the relevant FAPI 
+At it's core it's simply injects the correct attributes into the relevant FAPI
 field using hook_form_alter
 It expects the same syntax as FAPI validation module using the rules attribute.
 
@@ -15,16 +15,22 @@ It expects the same syntax as FAPI validation module using the rules attribute.
 ##Requirments
 
 1. Libraries module
-2. Parsley.js 1.2.4
+2. jQuery Update (Tested with jQuery 1.9, millage may vary with earlier
+versions of jQuery)
+3. Parsley.js 1.2.4
 
 
 ##Installation
 
-1. Download the parsley.js library https://github.com/guillaumepotier/Parsley.js/archive/1.2.4.tar.gz
-to your libraries location (usually sites/all/libraries)
-2. Expand the contents of the archive in to parsleyjs, so that the folder 
-structure reads libraries/parsleyjs and parsley.js is directly under parsleyjs folder
+1. Download the parsley.js library
+https://github.com/guillaumepotier/Parsley.js/archive/1.2.4.tar.gz to your
+libraries location (usually sites/all/libraries)
+2. Expand the contents of the archive in to parsleyjs, so that the folder
+structure reads libraries/parsleyjs and parsley.js is directly under parsleyjs
+folder
 3. Enable the module under admin/modules
+4. Set jQuery update to 1.9 or later under
+admin/config/development/jquery_update
 
 ##Configuration
 Currently there are no configuration options
@@ -37,7 +43,7 @@ To enable a form to be validated you will have to implement a hook
 example_parsley_js_forms() {
   return array(
     'example_form',
-    'another_form'
+    'another_form',
   );
 }
 ?>
@@ -62,7 +68,7 @@ $form['my-field'] = array(
 ```
 
 ###Rules
-Currently only the following rules are implemented.  
+Currently only the following rules are implemented.
 Where possible the rule names will follow the FAPI validation name, otherwise it
 will have the same rule name as the parsle.js documentation
 * notblank
@@ -79,22 +85,23 @@ will have the same rule name as the parsle.js documentation
 
 Details of these rules can be found at https://parsleyjs.github.io/Parsley-1.x/
 
-####Exceptions  
+####Exceptions
 
-**dateIso**:  
+**dateIso**:
 Parsley.js calls it dateIso, use date_iso instead to keep consistency
 
-**Length**:  
-The length rules supports both specific length, min length and max length.  
-A set length is indicated bu ```length[2,9]``` meaning any string between 2 and 9 characters long  
-A min length is indicated by ```length[3, *]```   
+**Length**:
+The length rules supports both specific length, min length and max length.
+A set length is indicated bu ```length[2,9]``` meaning any string
+between 2 and 9 characters long
+A min length is indicated by ```length[3, *]```
 A max length is indicated by ```length[*, 6]```
 
-**Range**:  
+**Range**:
 The range follows the same syntax, except this checks the numeric length of the 
 value. ```range[3, 8]``` validates the input is between 3 and 8
 
 ##Troubleshooting
 The module relies on a cache entry for the forms that have been declared in a
-hook, therefor you will have to clear the cache once you have declared new 
+hook, therefor you will have to clear the cache once you have declared new
 forms in the hook
