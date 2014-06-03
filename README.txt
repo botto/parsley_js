@@ -15,7 +15,7 @@ It expects the same syntax as FAPI validation module using the rules attribute.
 ##Requirements
 
 1. Libraries module
-2. jQuery Update (Tested with jQuery 1.9, millage may vary with earlier
+2. jQuery Update (Tested with jQuery 1.9, mileage may vary with earlier
 versions of jQuery)
 3. Parsley.js 1.2.4
 
