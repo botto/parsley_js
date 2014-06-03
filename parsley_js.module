@@ -6,7 +6,6 @@
  */
 
 define('PARSLEY_JS_RULE_INVALID', -1);
-define('PARSLEY_JS_RULE_NOT_FOUND', 1);
 
 /**
  * Implements hook_hook_info().
@@ -170,9 +169,6 @@ function _parsley_js_parse_no_args($rs) {
 
     case 'phone':
       return array('parsley-type', 'phone');
-
-    default:
-      return PARSLEY_JS_RULE_NOT_FOUND;
   }
 }
 
@@ -195,9 +191,6 @@ function _parsley_js_parse_args($rs) {
 
     case 'range':
       return _parsley_js_rule_range($rs[3]);
-
-    default:
-      return PARSLEY_JS_RULE_NOT_FOUND;
   }
 }
 
