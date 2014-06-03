@@ -2,7 +2,7 @@
 /**
  * @file
  * Module that provides integration with parsley.js
- * Currently support parsley 1.x
+ * Currently supports parsley.js 1.x
  */
 
 define('PARSLEY_JS_RULE_INVALID', -1);
@@ -11,7 +11,7 @@ define('PARSLEY_JS_RULE_NOT_FOUND', 1);
 /**
  * Implements hook_hook_info().
  *
- * Declaring the parsle_js_form hook to allow developers to hook their forms
+ * Declaring the parsley_js_form hook to allow developers to hook their forms
  * into parsley_js
  */
 function parsley_js_hook_info() {
@@ -28,7 +28,7 @@ function parsley_js_hook_info() {
  * Implements hook_form_alter().
  *
  * This is where the main work happens
- * First check wether the there is a cache entry with form_ids, if not it will
+ * First check whether there is a cache entry with form_ids, if not it will
  * build up a new list from calling the modules implementing the hook
  *
  * @TODO Filter which forms to include on using system var
@@ -108,12 +108,12 @@ function parsley_js_form_alter(&$form, &$form_state, $form_id) {
  * Helper function to choose correct rule parser.
  *
  * @param string $rule
- *   The rule with either params or no params, it folows the parsleyjs syntax
+ *   The rule with either params or no params, it folows the parsley.js syntax
  *
- * @see http://parsleyjs.org/documentation.html#basic-constraints
+ * @see http://parsleyjs.github.io/Parsley-1.x/documentation.html#basic-constraints
  */
 function _parsley_js_rule_parse($rule) {
-  // Borrowed from FAPI module.
+  // Borrowed from FAPI module(https://drupal.org/project/FAPI).
   // Checks wether there are any params included.
   preg_match('/^(.*?)(\[(.*)\])?$/', $rule, $rs);
   if (count($rs) == 2) {
@@ -131,7 +131,7 @@ function _parsley_js_rule_parse($rule) {
  * Helper function to handle rules with no arguments.
  *
  * @param string $rs
- *   The rulestring parsed from #rules
+ *   The rule string parsed from #rules
  *
  * @code
  * #rules => array(

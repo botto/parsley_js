@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Provides the requirments, install and uninstall functions for parsley_js
+ * Provides the requirements, install and uninstall functions for parsley_js
  * module
  */
 

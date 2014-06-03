@@ -12,7 +12,7 @@ field using hook_form_alter
 It expects the same syntax as FAPI validation module using the rules attribute.
 
 
-##Requirments
+##Requirements
 
 1. Libraries module
 2. jQuery Update (Tested with jQuery 1.9, millage may vary with earlier

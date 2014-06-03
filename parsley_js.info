@@ -1,5 +1,5 @@
-name = parsley.js
-description = Adds the parsleyjs validation lib to forms
+name = Parsley.js Validation
+description = Integrates the client-side form validation library parsley.js with Drupal FAPI
 core = 7.x
 
 dependencies[] = libraries
