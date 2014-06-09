@@ -4,9 +4,6 @@ Drupal module that provides integration with the parsley.js library.
 Parsley.js performs client side form validation.
 Currently this module only integrates on the FAPI layer.
 
-This is not an end-user module, it relies on a hook to know which forms it
-should act on.
-
 At it's core it's simply injects the correct attributes into the relevant FAPI
 field using hook_form_alter
 It expects the same syntax as FAPI validation module using the rules attribute.
@@ -15,7 +12,7 @@ It expects the same syntax as FAPI validation module using the rules attribute.
 ##Requirements
 
 1. Libraries module
-2. jQuery Update (Tested with jQuery 1.9, mileage may vary with earlier
+2. jQuery Update (Tested with jQuery 1.6, mileage may vary with earlier
 versions of jQuery)
 3. Parsley.js 1.2.4
 
@@ -37,22 +34,15 @@ Currently there are no configuration options
 
 ##Usage
 
-To enable a form to be validated you will have to implement a hook
+To enable a form to be validated, simply set parsley_js to true when creating
+the form
+
 ```php
 <?php
-example_parsley_js_forms() {
-  return array(
-    'example_form',
-    'another_form',
-  );
-}
-?>
+$form['parsley_js'] = TRUE;
 ```
 
-When the form is generated it will then check all the declared hooks and inject
-the necessary markup so parsley.js will do it's magic.
-The return of this hook is cached so you will have to clear cache once you have
-implemented the hook.
+Set the #rules key on each field you want validated
 
 ```php
 <?php
@@ -70,7 +60,7 @@ $form['my-field'] = array(
 ###Rules
 Currently only the following rules are implemented.
 Where possible the rule names will follow the FAPI validation name, otherwise it
-will have the same rule name as the parsle.js documentation
+will have the same rule name as the parsley.js documentation
 * notblank
 * email
 * url
@@ -100,8 +90,3 @@ A max length is indicated by ```length[*, 6]```
 **Range**:
 The range follows the same syntax, except this checks the numeric length of the 
 value. ```range[3, 8]``` validates the input is between 3 and 8
-
-##Troubleshooting
-The module relies on a cache entry for the forms that have been declared in a
-hook, therefor you will have to clear the cache once you have declared new
-forms in the hook
