@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Module that provides integration with parsley.js 1.x
+ * Module that provides integration with parsley.js 1.x.
  */
 
 define('PARSLEY_JS_RULE_INVALID', -1);
