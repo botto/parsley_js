@@ -34,12 +34,12 @@ Currently there are no configuration options
 
 ##Usage
 
-To enable a form to be validated, simply set parsley_js to true when creating
-the form
+To enable a form to be validated, simply set #parsley_js in the form array
+to true.
 
 ```php
 <?php
-$form['parsley_js'] = TRUE;
+$form['#parsley_js'] = TRUE;
 ```
 
 Set the #rules key on each field you want validated
