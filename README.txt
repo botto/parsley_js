@@ -53,6 +53,7 @@ $form['my-field'] = array(
   '#required' => TRUE,
   '#rules' => array(
     'length[3,10]',
+    'email',
   ),
 );
 ```
@@ -73,7 +74,8 @@ will have the same rule name as the parsley.js documentation
 * length
 * range
 
-Details of these rules can be found at https://parsleyjs.github.io/Parsley-1.x/
+Details of these rules can be found at
+https://parsleyjs.github.io/Parsley-1.x/documentation.html#validators
 
 ####Exceptions
 

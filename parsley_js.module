@@ -1,8 +1,7 @@
 <?php
 /**
  * @file
- * Module that provides integration with parsley.js
- * Currently supports parsley.js 1.x
+ * Module that provides integration with parsley.js 1.x
  */
 
 define('PARSLEY_JS_RULE_INVALID', -1);
@@ -77,7 +76,7 @@ function parsley_js_form_alter(&$form, &$form_state, $form_id) {
  * Helper function to choose correct rule parser.
  *
  * @param string $rule
- *   The rule with either params or no params, it folows the parsley.js syntax
+ *   The rule with either params or no params, it folows the parsley.js syntax.
  *
  * @see http://parsleyjs.github.io/Parsley-1.x/documentation.html#basic-constraints
  */
@@ -100,7 +99,7 @@ function _parsley_js_rule_parse($rule) {
  * Helper function to handle rules with no arguments.
  *
  * @param string $rs
- *   The rule string parsed from #rules
+ *   The rule string parsed from #rules.
  *
  * @code
  * #rules => array(
@@ -146,7 +145,7 @@ function _parsley_js_parse_no_args($rs) {
  * Helper function to handle rules with arguments.
  *
  * @param string $rs
- *   The rulestring parsed from #rules
+ *   The rulestring parsed from #rules.
  *
  * @code
  * #rules => array(
@@ -168,7 +167,7 @@ function _parsley_js_parse_args($rs) {
  * The rule for length.
  *
  * @param string $args
- *   The arguments for the length rule
+ *   The arguments for the length rule.
  */
 function _parsley_js_rule_length($args) {
   $ranges = _parsley_js_numeric_args_parser($args);
@@ -194,7 +193,7 @@ function _parsley_js_rule_length($args) {
  * The rule for numeric range.
  *
  * @param string $args
- *   The arguments for the range rule
+ *   The arguments for the range rule.
  */
 function _parsley_js_rule_range($args) {
   $ranges = _parsley_js_numeric_args_parser($args);

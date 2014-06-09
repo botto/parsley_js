@@ -1,10 +1,8 @@
 <?php
 /**
  * @file
- * Provides the requirements, install and uninstall functions for parsley_js
- * module
+ * Provides the (un)install and requirments functions for parsley_js.
  */
-
 
 /**
  * Implements hook_requirements().
