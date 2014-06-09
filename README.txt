@@ -1,7 +1,7 @@
 #parsley_js
 
-Drupal module that provides integration with the parsley.js library.
-Parsley.js performs client side form validation.
+Drupal module that provides integration with the client side validation library
+parsley.js.
 Currently this module only integrates on the FAPI layer.
 
 At it's core it's simply injects the correct attributes into the relevant FAPI
@@ -30,7 +30,7 @@ folder
 admin/config/development/jquery_update
 
 ##Configuration
-Currently there are no configuration options
+Currently there are no configuration options.
 
 ##Usage
 
