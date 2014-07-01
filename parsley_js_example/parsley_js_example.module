@@ -1,0 +1,122 @@
+<?php
+/**
+ * @file
+ * Example form for parsley_js module
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function parsley_js_example_menu() {
+  $menu = array();
+  $menu['parsley_js_example'] = array(
+    'title' => 'Example form for ParsleyJS',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('parsley_js_example_form'),
+    'access callback' => TRUE,
+  );
+  return $menu;
+}
+
+/**
+ * Provides an example form.
+ */
+function parsley_js_example_form($form, $form_state) {
+  // This will validate for known pattern of email a@a.co.
+  $form['valid_email'] = array(
+    '#title' => 'Valid Email',
+    '#type' => 'textfield',
+    '#rules' => array(
+      'email',
+    ),
+  );
+
+  $form['required_field'] = array(
+    '#title' => t('Required field'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+
+  // This is strictly numeric, only 0.0-9.9 accepted.
+  $form['numeric_field'] = array(
+    '#title' => t('Numeric Field'),
+    '#type' => 'textfield',
+    '#rules' => array(
+      'numeric',
+    ),
+  );
+
+  // This field will have to be exactly 3 chars long.
+  $form['maxlength_field'] = array(
+    '#title' => t('Length Field'),
+    '#type' => 'textfield',
+    '#rules' => array(
+      'length[3]',
+    ),
+  );
+
+  $form['minlength_field'] = array(
+    '#title' => t('Min-length field'),
+    '#type' => 'textfield',
+    '#rules' => array(
+      'length[5,*]',
+    ),
+  );
+
+  $form['maxlength_field'] = array(
+    '#title' => ('Max-length field'),
+    '#type' => 'textfield',
+    '#rules' => array(
+      'length[*,4]',
+    ),
+  );
+
+  $form['range_field'] = array(
+    '#title' => t('Range field'),
+    '#type' => 'textfield',
+    '#rules' => array(
+      'range[2, 8]',
+    ),
+  );
+
+  $form['maxval_field'] = array(
+    '#title' => t('Maximum value field'),
+    '#type' => 'textfield',
+    '#rules' => array(
+      'range[*, 5]',
+    ),
+  );
+
+  $form['minval_field'] = array(
+    '#title' => t('Minimum value field'),
+    '#type' => 'textfield',
+    '#rules' => array(
+      'range[7, *]',
+    ),
+  );
+
+  $form['multirule_field'] = array(
+    '#title' => t('Multi rule field'),
+    '#type' => 'textfield',
+    '#rules' => array(
+      'length[*, 4]',
+      'range[10, 5000]',
+      'numeric',
+    ),
+    '#required' => TRUE,
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => 'Send',
+  );
+
+  $form['#parsley_js'] = TRUE;
+
+  $form['#attributes'] = array(
+    'class' => array(
+      'asd',
+    ),
+  );
+  return $form;
+}

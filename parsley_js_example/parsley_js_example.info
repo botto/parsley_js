@@ -1,0 +1,4 @@
+name = Parsley.js Example
+description = Provides example of how to use parsley_js
+core = 7.x
+dependencies[] = parsley_js
