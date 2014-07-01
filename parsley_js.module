@@ -29,7 +29,7 @@ function parsley_js_form_alter(&$form, &$form_state, $form_id) {
 
     // Loop through the fields and attach the relevant validator attrib.
     foreach ($form as &$element) {
-      if (!empty($element['#rules'])) {
+      if (is_array($element) && !empty($element['#rules'])) {
         foreach ($element['#rules'] as $rule) {
           if (is_array($rule)) {
 
@@ -64,7 +64,9 @@ function parsley_js_form_alter(&$form, &$form_state, $form_id) {
           }
         }
       }
-      if (!empty($element['#required']) && $element['#required'] == TRUE) {
+      if (is_array($element)
+          && !empty($element['#required'])
+          && $element['#required'] == TRUE) {
         list($attrib, $val) = _parsley_js_rule_parse('required');
         $element['#attributes'][$attrib] = array($val);
       }
