@@ -47,8 +47,8 @@ function parsley_js_example_form($form, $form_state) {
   );
 
   // This field will have to be exactly 3 chars long.
-  $form['maxlength_field'] = array(
-    '#title' => t('Length Field'),
+  $form['specificlength_field'] = array(
+    '#title' => t('Specific Length Field'),
     '#type' => 'textfield',
     '#rules' => array(
       'length[3]',
