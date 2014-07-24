@@ -13,7 +13,7 @@ define('PARSLEY_JS_RULE_INVALID', -1);
  * First check whether there is a cache entry with form_ids, if not it will
  * build up a new list from calling the modules implementing the hook
  *
- * @TODO Filter which forms to include on using system var
+ * @TODO Filter additional forms to include using system var
  */
 function parsley_js_form_alter(&$form, &$form_state, $form_id) {
   if (!empty($form['#parsley_js']) && $form['#parsley_js'] === TRUE) {
@@ -246,10 +246,10 @@ function parsley_js_libraries_info() {
     'vendor url' => 'http://parsleyjs.org/',
     'download url' => 'https://github.com/guillaumepotier/Parsley.js/releases',
     'version arguments' => array(
-      'file' => 'CHANGELOG.md',
+      'file' => 'dist/parsley.js',
       // The version in the CHANGELOG.md is usually this pattern **x.x.x**.
-      'pattern' => '@\*\*([0-9\.]+)@',
-      'lines' => 5,
+      'pattern' => '@\*\sVersion ([0-9\.]+)@',
+      'lines' => 4,
     ),
     'files' => array(
       'js' => array(

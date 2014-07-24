@@ -16,6 +16,7 @@ function parsley_js_requirements($phase) {
     // Check out deps.
     $library_dep = libraries_detect('parsleyjs');
     $jquery_version = variable_get('jquery_update_jquery_version', '1.4.4');
+    dpm($library_dep);
 
     if ($library_dep['installed'] != TRUE) {
       $requirements['parsley_js_lib_version'] = array(
@@ -33,18 +34,18 @@ function parsley_js_requirements($phase) {
       );
     }
 
-    if (version_compare($jquery_version, 1.6, '<')) {
-      $requirements['asd'] = array(
+    if (version_compare($jquery_version, 1.8, '=>')) {
+      $requirements['parsleyjs_jquery_required'] = array(
         'title' => $t('ParsleyJS Jquery'),
         'value' => $t(
-          'Please set jQuery Update to jQuery version 1.6 or higher'
+          'Please set jQuery Update to jQuery version 1.8 or higher'
         ),
         'severity' => REQUIREMENT_ERROR,
       );
     }
 
     if (count($requirements) == 0) {
-      $requirements[] = array(
+      $requirements['parsley_js_installed'] = array(
         'title' => $t('ParsleyJS Library'),
         'value' => $library_dep['version'],
         'severity' => REQUIREMENT_OK,
