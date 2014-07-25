@@ -17,9 +17,9 @@ define('PARSLEY_JS_RULE_INVALID', -1);
  */
 function parsley_js_form_alter(&$form, &$form_state, $form_id) {
   if (!empty($form['#parsley_js']) && $form['#parsley_js'] === TRUE) {
-    // Libraries module gives us a nice attach for this.
     $form['#attached']['libraries_load'][] = array('parsleyjs');
 
+    // Init attribs
     if (empty($form['#attributes'])) {
       $form['#attributes'] = array();
     }
@@ -253,7 +253,7 @@ function parsley_js_libraries_info() {
     ),
     'files' => array(
       'js' => array(
-        'parsley.js',
+        'dist/parsley.js',
 
       ),
       'variants' => array(
@@ -267,7 +267,7 @@ function parsley_js_libraries_info() {
         'source' => array(
           'files' => array(
             'js' => array(
-              'parsley.js',
+              'dist/parsley.js',
             ),
           ),
         ),
