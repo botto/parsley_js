@@ -18,16 +18,12 @@ function parsley_js_requirements($phase) {
     $jquery_version = variable_get('jquery_update_jquery_version', '1.4.4');
 
     if ($library_dep['installed'] != TRUE) {
+      var_dump($library_dep);
       $requirements['parsley_js_lib_version'] = array(
         'title' => $t('ParsleyJS Libray'),
         'value' => $t(
-          'Please download the !link library and place it in libraries under parsleyjs',
-          array(
-            '!link' => l(
-              $t('parsley.js'),
-              'https://github.com/guillaumepotier/Parsley.js/releases'
-            ),
-          )
+          'Please download v1 of the !link library and place it in libraries under parsleyjs',
+          array('!link' => $library_dep['download url'])
         ),
         'severity' => REQUIREMENT_ERROR,
       );

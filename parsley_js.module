@@ -244,7 +244,7 @@ function parsley_js_libraries_info() {
   $libraries['parsleyjs'] = array(
     'name' => 'Parsley JS',
     'vendor url' => 'http://parsleyjs.org/',
-    'download url' => 'https://github.com/guillaumepotier/Parsley.js/releases',
+    'download url' => 'https://github.com/guillaumepotier/Parsley.js/archive/1.2.4.tar.gz',
     'version arguments' => array(
       'file' => 'CHANGELOG.md',
       // The version in the CHANGELOG.md is usually this pattern **x.x.x**.
