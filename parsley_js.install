@@ -18,7 +18,6 @@ function parsley_js_requirements($phase) {
     $jquery_version = variable_get('jquery_update_jquery_version', '1.4.4');
 
     if ($library_dep['installed'] != TRUE) {
-      var_dump($library_dep);
       $requirements['parsley_js_lib_version'] = array(
         'title' => $t('ParsleyJS Libray'),
         'value' => $t(
