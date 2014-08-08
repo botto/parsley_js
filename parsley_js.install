@@ -16,13 +16,12 @@ function parsley_js_requirements($phase) {
     // Check out deps.
     $library_dep = libraries_detect('parsleyjs');
     $jquery_version = variable_get('jquery_update_jquery_version', '1.10');
-
     if ($library_dep['installed'] != TRUE) {
       $requirements['parsley_js_lib_version'] = array(
         'title' => $t('ParsleyJS Libray'),
         'value' => $t(
-          'Please download v1 of the !link library and place it in libraries under parsleyjs',
-          array('!link' => $library_dep['download url'])
+          'Please download v1 of the !link library and place it in libraries under <code>parsleyjs</code>',
+          array('!link' => l('parsley.js', $library_dep['download url']))
         ),
         'severity' => REQUIREMENT_ERROR,
       );
