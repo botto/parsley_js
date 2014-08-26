@@ -21,7 +21,7 @@ function parsley_js_requirements($phase) {
         'title' => $t('ParsleyJS Libray'),
         'value' => $t(
           'Please download v1 of the !link library and place it in libraries under <code>parsleyjs</code>',
-          array('!link' => l('parsley.js', $library_dep['download url']))
+          array('!link' => l(t('parsley.js'), $library_dep['download url']))
         ),
         'severity' => REQUIREMENT_ERROR,
       );
