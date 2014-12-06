@@ -9,11 +9,12 @@
  */
 function parsley_js_example_menu() {
   $menu = array();
-  $menu['parsley_js_example'] = array(
-    'title' => 'Example form for ParsleyJS',
+  $menu['admin/parsley_js_example'] = array(
+    'title' => 'ParsleyJS Example',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('parsley_js_example_form'),
     'access callback' => TRUE,
+    'type' => MENU_NORMAL_ITEM,
   );
   return $menu;
 }
