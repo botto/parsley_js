@@ -38,24 +38,21 @@ To enable a form to be validated, simply set #parsley_js in the form array
 to true.
 
 ```php
-<?php
 $form['#parsley_js'] = TRUE;
 ```
 
 Set the #rules key on each field you want validated
 
 ```php
-<?php
-
 $form['my-field'] = array(
-  '#title' => t('My Field'),
-  '#description' => t("It's my field, only I get to fill it in"),
-  '#required' => TRUE,
-  '#rules' => array(
-    'length[3,10]',
-    'email',
-  ),
-);
+ '#title' => t('My Field'),
+ '#description' => t("It's my field, only I get to fill it in"),
+ '#required' => TRUE,
+ '#rules' => array(
+   'length[3,10]',
+   'email',
+ ),
+;
 ```
 
 ###Rules
